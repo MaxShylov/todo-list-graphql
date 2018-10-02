@@ -1,7 +1,7 @@
-import { ApolloServer } from "apollo-server-express";
+const { ApolloServer } = require("apollo-server-express");
 
-import typeDefs from "./schema";
-import resolvers from "./resolvers";
+const typeDefs = require("./schema");
+const resolvers = require("./resolvers");
 
 const server = new ApolloServer({
   typeDefs,
@@ -19,4 +19,4 @@ const connectFraphQL = ({ app, httpServer }) => {
   server.installSubscriptionHandlers(httpServer);
 };
 
-export default connectFraphQL;
+module.exports = connectFraphQL;

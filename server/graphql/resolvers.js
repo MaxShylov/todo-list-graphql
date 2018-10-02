@@ -1,10 +1,10 @@
-import { PubSub } from "apollo-server";
-import isEmpty from "lodash/isEmpty";
-import escapeRegExp from "lodash/escapeRegExp";
-import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
+const { PubSub } = require("apollo-server");
+const isEmpty = require("lodash/isEmpty");
+const escapeRegExp = require("lodash/escapeRegExp");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 
-import UsersModel from "../db/models/users.model";
+const UsersModel = require("../db/models/users.model");
 
 const pubsub = new PubSub();
 
@@ -159,8 +159,8 @@ const resolvers = {
 
         return tasks;
       });
-    },
+    }
   }
 };
 
-export default resolvers;
+module.exports = resolvers;

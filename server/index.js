@@ -1,8 +1,8 @@
-import express from "express";
-import { createServer } from "http";
-import path from "path";
+const express = require("express");
+const { createServer } = require("http");
+const path = require("path");
 
-import connectFraphQL from "./graphql/connect";
+const connectFraphQL = require("./graphql/connect");
 
 const PORT = process.env.PORT || 8000;
 
@@ -11,10 +11,10 @@ const httpServer = createServer(app);
 
 connectFraphQL({ app, httpServer });
 
-app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, "client/build")));
 
-app.get('*', (req,res) =>{
-  res.sendFile(path.join(__dirname+'/client/build/index.html'));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/client/build/index.html"));
 });
 
 httpServer.listen({ port: PORT }, () => {

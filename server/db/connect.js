@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const { DB_USER, DB_SECRET, DB_HOST, DB_NAME } = process.env;
 
@@ -12,4 +12,4 @@ mongoose.connect(
   (err) => err && console.log(err)
 );
 
-export default mongoose
+module.exports = mongoose;

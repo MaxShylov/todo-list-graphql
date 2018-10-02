@@ -1,5 +1,5 @@
-import bcrtypt from "bcryptjs";
-import mongoose from "../connect";
+const bcrtypt = require("bcryptjs");
+const mongoose = require("../connect");
 
 const Schema = mongoose.Schema;
 
@@ -26,4 +26,4 @@ UsersSchema.pre("save", function(next) {
 
 const UsersModel = mongoose.model("UsersModel", UsersSchema);
 
-export default UsersModel;
+module.exports = UsersModel;
