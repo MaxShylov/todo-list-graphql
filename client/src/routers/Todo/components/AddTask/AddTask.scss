@@ -1,0 +1,31 @@
+@import "../../../../scss/variables";
+
+$button-width: 150px;
+$input-group-height: 50px;
+
+.AddMessage {
+  display: block;
+  width: $content-width;
+
+  .ant-form-item {
+    width: 100%;
+  }
+
+  .input-add {
+    width: calc(100% - #{$button-width});
+    height: $input-group-height;
+    border-radius: 7px 0 0 7px;
+    border-right: none;
+  }
+
+  .button-add {
+    width: $button-width;
+    height: $input-group-height;
+    border-radius: 0 7px 7px 0;
+  }
+
+  .ant-form-item {
+    margin-bottom: 0;
+  }
+
+}

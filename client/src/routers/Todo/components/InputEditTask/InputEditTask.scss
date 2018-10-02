@@ -1,0 +1,24 @@
+@import '../../../../scss/variables';
+
+.InputEditTask {
+
+  .ant-input {
+    padding-right: 55px;
+  }
+
+  .anticon {
+    cursor: pointer;
+    transition: color .5s;
+
+    &-check-circle {
+      margin-right: 5px;
+
+      &:hover { color: $color-green; }
+    }
+
+    &-close-circle {
+      &:hover { color: $color-red; }
+    }
+  }
+
+}

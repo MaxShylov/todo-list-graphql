@@ -1,0 +1,23 @@
+@import "../../../../scss/variables";
+
+.TaskStatus {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: $wrap-check-icon-width;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  .anticon {
+    font-size: 25px;
+    color: #ccc;
+
+    &.anticon-check-square {
+      color: $color-green;
+    }
+  }
+}

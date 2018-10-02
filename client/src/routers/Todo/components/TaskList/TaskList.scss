@@ -1,0 +1,12 @@
+@import "../../../../scss/variables";
+
+.TaskList {
+  width: $content-width;
+  margin: 0 auto;
+
+  ul {
+    list-style: none;
+    margin-bottom: 0;
+    padding-left: 0;
+  }
+}
