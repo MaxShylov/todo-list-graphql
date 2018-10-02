@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { graphql } from "react-apollo/";
+import { graphql } from "server/client/src/routers/Todo/components/TaskItem/TaskItem";
 import Icon from "antd/lib/icon";
 import Card from "antd/lib/card";
 import message from "antd/lib/message";

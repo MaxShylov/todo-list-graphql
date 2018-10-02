@@ -1,0 +1,17 @@
+@import url(~antd/dist/antd.css);
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif; }
+
+.App {
+  min-height: 100vh; }
+  .App .ant-layout-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 150px;
+    background-color: transparent; }
+    .App .ant-layout-header h1 {
+      line-height: 40px; }

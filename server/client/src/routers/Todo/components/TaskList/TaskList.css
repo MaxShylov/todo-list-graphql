@@ -1,0 +1,7 @@
+.TaskList {
+  width: 700px;
+  margin: 0 auto; }
+  .TaskList ul {
+    list-style: none;
+    margin-bottom: 0;
+    padding-left: 0; }

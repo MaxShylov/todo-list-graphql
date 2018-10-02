@@ -1,0 +1,12 @@
+.InputEditTask .ant-input {
+  padding-right: 55px; }
+
+.InputEditTask .anticon {
+  cursor: pointer;
+  transition: color .5s; }
+  .InputEditTask .anticon-check-circle {
+    margin-right: 5px; }
+    .InputEditTask .anticon-check-circle:hover {
+      color: #05b705; }
+  .InputEditTask .anticon-close-circle:hover {
+    color: #ff0000; }

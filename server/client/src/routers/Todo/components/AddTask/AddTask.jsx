@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 import React from "react";
 import Button from "antd/lib/button";
-import { graphql } from "react-apollo/";
+import { graphql } from "server/client/src/routers/Todo/components/AddTask/AddTask";
 import Form from "antd/lib/form";
 import Input from "antd/lib/input";
 
