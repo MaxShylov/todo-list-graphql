@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import gql from "graphql-tag";
-import { graphql } from "server/client/src/routers/Todo/components/InputEditTask/InputEditTask";
-import Icon from "antd/lib/icon";
+import { graphql } from "react-apollo";
+import Icon from "antd/lib/";
 import Input from "antd/lib/input";
 import message from "antd/lib/message";
 
