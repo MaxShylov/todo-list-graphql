@@ -8,6 +8,7 @@ import "./WrapTaskList.css";
 
 import TaskList from "../TaskList/TaskList";
 
+
 const GET_TASKS = gql`
   query {
     tasks {
