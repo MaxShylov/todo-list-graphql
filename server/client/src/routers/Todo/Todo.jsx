@@ -73,7 +73,8 @@ class Todo extends Component {
           </Content>
 
           <Footer>
-            Created by Max Shylov
+            Created by
+            <a href="https://www.linkedin.com/in/max-shylov/" target='_blank'>Max Shylov</a>
           </Footer>
         </Layout>
       </div>

@@ -2,5 +2,6 @@
 .idea
 .env
 package-lock.json
-yarn.lock
+yarn.lock*
 tasks.txt
+yarn-error.log*
