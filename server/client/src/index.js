@@ -11,7 +11,7 @@ import result from 'dotenv'
 
 import App from './App';
 
-const { PORT } = result.config();
+const PORT = '31264';
 
 const httpLink = new HttpLink({
   uri: `https://todo-list-gql.herokuapp.com:${PORT}/graphql`,
