@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Layout from 'antd/lib/layout';
 import Icon from 'antd/lib/icon'
-import Tooltip from 'antd/lib/tooltip';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import message from 'antd/lib/message';

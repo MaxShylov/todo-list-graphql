@@ -11,14 +11,14 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import App from './App';
 
 const httpLink = new HttpLink({
-  uri: 'http://localhost:8000/graphql',
+  uri: 'https://todo-list-gql.herokuapp.com/graphql',
   headers: {
     authorization: `Bearer ${localStorage.token}`
   }
 });
 
 const wsLink = new WebSocketLink({
-  uri: `ws://localhost:8000/graphql`,
+  uri: `ws://todo-list-gql.herokuapp.com/graphql`,
   options: {
     reconnect: true,
   },
