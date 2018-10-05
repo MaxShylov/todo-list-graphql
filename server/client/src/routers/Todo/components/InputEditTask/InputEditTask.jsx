@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import gql from "graphql-tag";
 import { graphql } from "react-apollo";
-import Icon from "antd/lib/";
+import Icon from "antd/lib/icon";
 import Input from "antd/lib/input";
 import message from "antd/lib/message";
 
-import "./InputEditTask.css";
+import "./InputEditTask.scss";
 
 
 const EDIT_TASK = gql`

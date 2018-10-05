@@ -8,7 +8,7 @@ export const ROUTERS = {
   LOGIN: '/login',
   REGISTER: '/register',
 
-  TODO: '/'
+  TODO: '/todo'
 };
 
 const routes = [

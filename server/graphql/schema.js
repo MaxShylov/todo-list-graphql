@@ -2,6 +2,7 @@ const { gql } = require("apollo-server-express");
 
 const typeDefs = gql`
   type Query {
+    checkToken: Response
     tasks: [Task]
   }
 
@@ -22,6 +23,7 @@ const typeDefs = gql`
       username: String!,
       password: String!,
     ): Token
+    logout: Response
     addTask(content: String!): Task
     removeTask(id: ID!): Task
     editTask(
@@ -42,6 +44,7 @@ const typeDefs = gql`
     username: String
     password: String
     createAt: String
+    countTasks: Int
     error: String
     token: String
     tasks: [Task]
@@ -53,6 +56,7 @@ const typeDefs = gql`
     status: String
     createAt: String
     edited: Boolean
+    error: String
   }
 
   type Response {

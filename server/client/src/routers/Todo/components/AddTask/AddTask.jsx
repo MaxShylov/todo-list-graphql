@@ -5,7 +5,7 @@ import { graphql } from "react-apollo";
 import Form from "antd/lib/form";
 import Input from "antd/lib/input";
 
-import "./AddTask.css";
+import "./AddTask.scss";
 
 const InputGroup = Input.Group;
 const FormItem = Form.Item;

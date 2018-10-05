@@ -1,17 +1,17 @@
-const { PubSub } = require("apollo-server");
-const isEmpty = require("lodash/isEmpty");
-const escapeRegExp = require("lodash/escapeRegExp");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
+const { PubSub } = require('apollo-server');
+const isEmpty = require('lodash/isEmpty');
+const escapeRegExp = require('lodash/escapeRegExp');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
-const UsersModel = require("../db/models/users.model");
+const UsersModel = require('../db/models/users.model');
 
 const pubsub = new PubSub();
 
-const TASK_CREATED = "TASK_CREATED";
-const TASK_REMOVED = "TASK_REMOVED";
-const TASK_EDITED = "TASK_EDITED";
-const SORT_TASKS = "SORT_TASKS";
+const TASK_CREATED = 'TASK_CREATED';
+const TASK_REMOVED = 'TASK_REMOVED';
+const TASK_EDITED = 'TASK_EDITED';
+const SORT_TASKS = 'SORT_TASKS';
 
 
 const createToken = (body) => {
@@ -25,12 +25,24 @@ const createToken = (body) => {
 
 const resolvers = {
   Query: {
-    tasks: async (root, args, context) => {
-      const _id = jwt.decode(context.token).id;
-      let data = await UsersModel.findOne({ _id });
+    checkToken: async (root, args, { token }) => {
+      const user = await UsersModel.findOne({ token });
+      let success = true, error;
 
-      return data.tasks;
-    }
+      if (!user) {
+        success = false;
+        error = 'Token is not valid'
+      }
+
+      return { success, error }
+    },
+    tasks:
+      async (root, args, context) => {
+        const _id = jwt.decode(context.token).id;
+        let data = await UsersModel.findOne({ _id });
+
+        return data.tasks;
+      }
   },
   Subscription: {
     taskCreated: {
@@ -50,8 +62,8 @@ const resolvers = {
     register: async (root, { username, password, confirm }) => {
       const user = await UsersModel.find({ username: escapeRegExp(username) }).lean().exec();
 
-      if (!isEmpty(user)) return ({ error: "User alredy exist" });
-      if (password !== confirm) return ({ error: "Password field and confirm password field must be identical." });
+      if (!isEmpty(user)) return ({ error: 'User already exist!' });
+      if (password !== confirm) return ({ error: 'Password field and confirm password field must be identical!' });
 
       const newUser = await UsersModel.create({
         username,
@@ -60,25 +72,59 @@ const resolvers = {
 
       const token = createToken({ id: newUser._id, username: newUser.username });
 
+      await UsersModel.findById(newUser._id, (error, user) => {
+        if (error) return { error };
+
+        user.set({ token });
+        user.save((error) => {
+          if (error) return { error };
+        });
+      });
+
       return { token };
     },
     login: async (root, { username, password }) => {
-      const user = await UsersModel.findOne({ username: escapeRegExp(username) }).lean().exec();
+      const user = await UsersModel.findOne({ username: escapeRegExp(username) });
 
-      if (!isEmpty(user) && !bcrypt.compareSync(password, user.password)) {
-        return ({ error: "User not exist or password not correct" });
+      if (!user || !bcrypt.compareSync(password, user.password)) {
+        return ({ error: 'User not exist or password not correct' });
       }
 
       const token = createToken({ id: user._id, username: user.username });
 
+      await UsersModel.findById(user._id, (error, user) => {
+        if (error) return { error };
+
+        user.set({ token });
+        user.save((error) => {
+          if (error) return { error };
+        });
+      });
+
       return { token };
+    },
+    logout: async (root, arg, { token }) => {
+      const { id } = jwt.decode(token);
+
+      const request = await UsersModel.findById(id, (error, user) => {
+        if (error) return ({ error });
+
+        user.set({ token: null });
+        user.save((error) => {
+          if (error) return ({ error });
+        });
+
+        return ({ success: true });
+      });
+
+      return request
     },
     addTask: async (root, { content }, context) => {
       const
         _id = jwt.decode(context.token).id,
         newTask = {
           content,
-          status: "not-done",
+          status: 'not-done',
           createAt: new Date().toISOString(),
           edited: false
         };
@@ -88,7 +134,10 @@ const resolvers = {
 
         const { tasks } = user;
 
-        user.set({ tasks: [newTask, ...tasks] });
+        user.set({
+          tasks: [newTask, ...tasks],
+          countTasks: tasks.length + 1
+        });
         user.save((err) => {
           if (err) return console.log(err);
         });
@@ -132,7 +181,10 @@ const resolvers = {
 
         const { tasks } = user;
 
-        user.set({ tasks: [...tasks.filter(i => i._id.toString() !== id)] });
+        user.set({
+          tasks: [...tasks.filter(i => i._id.toString() !== id)],
+          countTasks: tasks.length - 1
+        });
         user.save((err) => {
           if (err) return console.log(err);
         });

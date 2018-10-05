@@ -8,7 +8,7 @@ import { SortableElement } from "react-sortable-hoc";
 import gql from "graphql-tag";
 import cn from "classnames";
 
-import "./TaskItem.css";
+import "./TaskItem.scss";
 
 import InputEditTask from "../InputEditTask/InputEditTask";
 import TaskStatus from "../TaskStatus/TaskStatus";

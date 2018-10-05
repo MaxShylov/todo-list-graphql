@@ -8,12 +8,14 @@ const UsersSchema = new Schema({
   username: String,
   password: String,
   createAt: { type: Date, default: Date.now },
+  countTasks: { type: Number, default: 0 },
   tasks: [{
     content: String,
     status: String,
     createAt: Date,
     edited: Boolean
-  }]
+  }],
+  token: String,
 }, {
   collection: "UsersCollection"
 });

@@ -3,7 +3,7 @@ import { Form, Icon, Input, Button, message } from "antd";
 import { Link } from "react-router-dom";
 
 
-import "./Register.css";
+import "./Register.scss";
 import { ROUTERS } from "../../index";
 import gql from "graphql-tag";
 import { graphql } from "react-apollo";
@@ -31,6 +31,8 @@ class Register extends Component {
 
     const { form, mutate } = this.props;
 
+    this.setState({ loading: true });
+
     form.validateFields((err, values) => {
       console.log("values", values);
 
@@ -39,12 +41,18 @@ class Register extends Component {
           .then((res) => {
             const { error, token } = res.data.register;
 
+            this.setState({ loading: false });
+
             if (error) return message.error(error);
 
             localStorage.setItem("token", token);
+            localStorage.setItem("username", values.username);
             window.location.reload();
           })
-          .catch(err => console.error(err));
+          .catch(err => {
+            message.error(err);
+            console.error(err)
+          });
       }
     });
   };

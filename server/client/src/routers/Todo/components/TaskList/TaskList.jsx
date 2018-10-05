@@ -3,7 +3,7 @@ import gql from "graphql-tag";
 import { graphql } from "react-apollo";
 import { arrayMove } from "react-sortable-hoc";
 
-import "./TaskList.css";
+import "./TaskList.scss";
 
 import SortableList from "../SortableList/SortableList";
 

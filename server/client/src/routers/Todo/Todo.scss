@@ -1,0 +1,51 @@
+.App {
+
+  .github-link {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    background: #000;
+    transform: rotate(45deg);
+    border: 50px solid transparent;
+    height: 0;
+    width: 0;
+    border-right-color: #000;
+    top: -50px;
+    left: -50px;
+
+    .anticon-github {
+      position: absolute;
+      left: 20px;
+      transform: rotate(-45deg);
+    }
+  }
+
+  .ant-spin {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .username {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-weight: bold;
+
+    .anticon-logout {
+      margin-left: 15px;
+      cursor: pointer;
+    }
+  }
+
+  .ant-layout-footer {
+    display: flex;
+    justify-content: center;
+    padding: 5px;
+    font-size: 10px;
+  }
+
+}

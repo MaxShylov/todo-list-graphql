@@ -1,9 +1,10 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import React from 'react';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 
-import "./App.css";
+import './App.scss';
 
-import routes, { ROUTERS } from "./routers";
+import routes, { ROUTERS } from './routers';
+
 
 class App extends React.Component {
 
@@ -12,8 +13,6 @@ class App extends React.Component {
       isLogined = localStorage.token,
       pathname = isLogined ? ROUTERS.TODO : ROUTERS.LOGIN,
       rule = (route) => route.path && [isLogined ? !route.withoutLogin : route.withoutLogin];
-
-    console.log("pathname", pathname);
 
     return (
       <div className="App">
@@ -36,6 +35,5 @@ class App extends React.Component {
     );
   }
 }
-
 
 export default App;

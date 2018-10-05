@@ -3,7 +3,7 @@ import gql from "graphql-tag";
 import { graphql } from "react-apollo";
 import Icon from "antd/lib/icon";
 
-import "./TaskStatus.css";
+import "./TaskStatus.scss";
 
 
 const TOGGLE_STATUS = gql`

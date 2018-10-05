@@ -1,12 +1,12 @@
-import React from "react";
-import gql from "graphql-tag";
-import { graphql } from "react-apollo";
-import isEmpty from "lodash/isEmpty";
-import Spin from "antd/lib/spin";
+import React from 'react';
+import gql from 'graphql-tag';
+import { graphql } from 'react-apollo';
+import isEmpty from 'lodash/isEmpty';
+import Spin from 'antd/lib/spin';
 
-import "./WrapTaskList.css";
+import './WrapTaskList.scss';
 
-import TaskList from "../TaskList/TaskList";
+import TaskList from '../TaskList/TaskList';
 
 
 const GET_TASKS = gql`
@@ -139,7 +139,7 @@ class WrapTaskList extends React.Component {
         <Spin spinning={loading}>
           {
             !tasks || isEmpty(tasks)
-              ? "No Tasks"
+              ? 'No Tasks'
               : <TaskList tasks={tasks} />
           }
         </Spin>
