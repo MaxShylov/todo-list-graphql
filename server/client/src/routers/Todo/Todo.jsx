@@ -51,7 +51,7 @@ class Todo extends Component {
           <Header>
             <a
               target='_blank'
-              href="http://github.com"
+              href="https://github.com/MaxShylov/todo-list-graphql"
               className='github-link'
             >
               <Icon type="github" theme="outlined" />
