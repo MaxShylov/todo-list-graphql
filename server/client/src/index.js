@@ -7,21 +7,24 @@ import { ApolloLink, split } from 'apollo-link';
 import { HttpLink } from 'apollo-link-http';
 import { WebSocketLink } from 'apollo-link-ws';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+import result from 'dotenv'
 
 import App from './App';
 
+const { PORT } = result.config();
+
 const httpLink = new HttpLink({
-  uri: 'https://todo-list-gql.herokuapp.com/graphql',
+  uri: `https://todo-list-gql.herokuapp.com:${PORT}/graphql`,
   headers: {
     authorization: `Bearer ${localStorage.token}`
   }
 });
 
 const wsLink = new WebSocketLink({
-  uri: `ws://todo-list-gql.herokuapp.com/graphql`,
+  uri: `ws://todo-list-gql.herokuapp.com:${PORT}/graphql`,
   options: {
-    reconnect: true,
-  },
+    reconnect: true
+  }
 });
 
 const terminatingLink = split(
@@ -32,7 +35,7 @@ const terminatingLink = split(
     );
   },
   wsLink,
-  httpLink,
+  httpLink
 );
 
 const link = ApolloLink.from([terminatingLink]);
@@ -41,12 +44,12 @@ const cache = new InMemoryCache();
 
 const client = new ApolloClient({
   link,
-  cache,
+  cache
 });
 
 ReactDOM.render(
   <ApolloProvider client={client}>
     <App />
   </ApolloProvider>,
-  document.getElementById('root'),
+  document.getElementById('root')
 );
