@@ -3,5 +3,4 @@
 .env
 package-lock.json
 yarn.lock*
-tasks.txt
 yarn-error.log*
