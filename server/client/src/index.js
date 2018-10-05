@@ -21,7 +21,7 @@ const httpLink = new HttpLink({
 });
 
 const wsLink = new WebSocketLink({
-  uri: `ws://todo-list-gql.herokuapp.com:${PORT}/graphql`,
+  uri: `wss://todo-list-gql.herokuapp.com:${PORT}/graphql`,
   options: {
     reconnect: true
   }
