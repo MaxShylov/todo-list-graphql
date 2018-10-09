@@ -11,17 +11,15 @@ import result from 'dotenv'
 
 import App from './App';
 
-const PORT = '31264';
-
 const httpLink = new HttpLink({
-  uri: `https://todo-list-gql.herokuapp.com:${PORT}/graphql`,
+  uri: `https://todo-list-gql.herokuapp.com/graphql`,
   headers: {
     authorization: `Bearer ${localStorage.token}`
   }
 });
 
 const wsLink = new WebSocketLink({
-  uri: `wss://todo-list-gql.herokuapp.com:${PORT}/graphql`,
+  uri: `wss://todo-list-gql.herokuapp.com/graphql`,
   options: {
     reconnect: true
   }
