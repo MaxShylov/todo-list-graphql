@@ -7,19 +7,28 @@ import { ApolloLink, split } from 'apollo-link';
 import { HttpLink } from 'apollo-link-http';
 import { WebSocketLink } from 'apollo-link-ws';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import result from 'dotenv'
 
 import App from './App';
 
+
+const HTTP_URI = process.env.NODE_ENV === 'development'
+  ? 'http://localhost:8000/graphql'
+  : 'https://todo-list-gql.herokuapp.com/graphql';
+
+const WS_URI = process.env.NODE_ENV === 'development'
+  ? 'ws://localhost:8000/graphql'
+  : 'wss://todo-list-gql.herokuapp.com/graphql';
+
+
 const httpLink = new HttpLink({
-  uri: `https://todo-list-gql.herokuapp.com/graphql`,
+  uri: HTTP_URI,
   headers: {
     authorization: `Bearer ${localStorage.token}`
   }
 });
 
 const wsLink = new WebSocketLink({
-  uri: `wss://todo-list-gql.herokuapp.com/graphql`,
+  uri: WS_URI,
   options: {
     reconnect: true
   }

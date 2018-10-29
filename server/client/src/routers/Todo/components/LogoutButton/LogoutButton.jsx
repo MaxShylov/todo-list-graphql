@@ -21,8 +21,6 @@ class LogoutButton extends Component {
   logout = () => {
     this.props.mutate()
       .then((res) => {
-        console.log('res', res);
-
         const { error } = res.data.logout;
 
         if (error) return message.error(error);

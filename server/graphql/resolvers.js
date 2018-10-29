@@ -159,6 +159,8 @@ const resolvers = {
 
         const task = tasks.filter(i => i._id.toString() === id)[0];
 
+        if (!task) return null;
+
         if (content) task.content = content;
         if (status) task.status = status;
         task.edited = true;
@@ -199,13 +201,11 @@ const resolvers = {
 
       tasks = JSON.parse(tasks);
 
-      await UsersModel.findById(_id, (err, user) => {
+      await UsersModel.findByIdAndUpdate(_id, { $set: { tasks } }, async (err, result) => {
         if (err) return console.log(err);
 
-        user.set({ tasks });
-        user.save((err) => {
-          if (err) return console.log(err);
-        });
+        const { tasks } = await UsersModel.findById(_id);
+
 
         pubsub.publish(SORT_TASKS, { tasksSorted: tasks });
 

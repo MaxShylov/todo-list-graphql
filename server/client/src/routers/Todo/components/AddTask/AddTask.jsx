@@ -27,7 +27,7 @@ class AddTask extends React.Component {
     const { form, mutate } = this.props;
 
     form.validateFields((err, { content }) => {
-      if (!err) {
+      if (!err && content.replace(/ /ig, '')) {
 
         mutate({ variables: { content } })
           .then(() => form.resetFields())

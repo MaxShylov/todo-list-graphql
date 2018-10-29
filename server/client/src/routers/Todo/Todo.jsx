@@ -32,8 +32,6 @@ class Todo extends Component {
   render() {
     const { data, data: { checkToken, loading } } = this.props;
 
-    console.log('data', data);
-
     if (!data) return null;
 
     if (loading) return <Spin spinning={true} />;
