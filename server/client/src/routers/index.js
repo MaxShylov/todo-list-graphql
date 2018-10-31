@@ -42,5 +42,3 @@ const routes = [
 
 export default routes;
 
-
-//TODO сделать стараницу reset-password и сделать, что б не редиректило на login
