@@ -5,6 +5,7 @@ import Link from 'react-router-dom/es/Link';
 import './Login.scss';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
+import ForgotButton from './components/ForgotButton/ForgotButton';
 
 const FormItem = Form.Item;
 
@@ -90,12 +91,8 @@ class Login extends Component {
           </FormItem>
           Or <Link to={'/register'}>register now!</Link>
 
-          <a
-            className="form-forgot"
-            onClick={() => alert('Don\'t work! =(')}
-          >
-            Forgot password
-          </a>
+          <ForgotButton />
+
         </Form>
       </div>
     );

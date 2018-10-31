@@ -1,4 +1,4 @@
-const { gql } = require("apollo-server-express");
+const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
   type Query {
@@ -16,6 +16,7 @@ const typeDefs = gql`
   type Mutation {
     register(
       username: String!,
+      email: String!,
       password: String!,
       confirm: String!
     ): Token
@@ -23,6 +24,14 @@ const typeDefs = gql`
       username: String!,
       password: String!,
     ): Token
+    forgotPassword(
+      email: String!,
+    ): Response
+    resetPassword(
+      forgotPasswordToken: String!,
+      password: String!,
+      confirm: String!
+    ): Response,
     logout: Response
     addTask(content: String!): Task
     removeTask(id: ID!): Task
@@ -42,6 +51,7 @@ const typeDefs = gql`
   type User {
     id: ID
     username: String
+    email: String
     password: String
     createAt: String
     countTasks: Int

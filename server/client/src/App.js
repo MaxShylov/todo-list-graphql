@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 
 import './App.scss';
 
@@ -12,12 +12,12 @@ class App extends React.Component {
     const
       isLogined = localStorage.token,
       pathname = isLogined ? ROUTERS.TODO : ROUTERS.LOGIN,
-      rule = (route) => route.path && [isLogined ? !route.withoutLogin : route.withoutLogin];
+      rule = (route) => route.path && (isLogined ? !route.withoutLogin : route.withoutLogin);
 
     return (
       <div className="App">
         <Router>
-          <div>
+          <Switch>
             {routes.map(({ component: Component, ...props }, i) => (
               <Route
                 key={i}
@@ -29,7 +29,7 @@ class App extends React.Component {
                 )}
               />
             ))}
-          </div>
+          </Switch>
         </Router>
       </div>
     );

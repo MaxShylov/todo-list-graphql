@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 const UsersModel = require('../db/models/users.model');
+const sendEmail = require('../nodemailer/index');
 
 const pubsub = new PubSub();
 
@@ -19,6 +20,13 @@ const createToken = (body) => {
     body,
     process.env.SECRET,
     { expiresIn: process.env.EXPIRES_IN }
+  );
+};
+
+const createTokenForgotPassword = (body) => {
+  return jwt.sign(
+    body,
+    process.env.SECRET_FORGOT
   );
 };
 
@@ -59,14 +67,23 @@ const resolvers = {
     }
   },
   Mutation: {
-    register: async (root, { username, password, confirm }) => {
-      const user = await UsersModel.find({ username: escapeRegExp(username) }).lean().exec();
 
-      if (!isEmpty(user)) return ({ error: 'User already exist!' });
-      if (password !== confirm) return ({ error: 'Password field and confirm password field must be identical!' });
+    register: async (root, { username, email, password, confirm }) => {
+      if (!username) return ({ error: 'Username is require!' });
+      if (!email) return ({ error: 'Email is require!' });
+      if (!password) return ({ error: 'Password is require!' });
+      if (!confirm) return ({ error: 'Confirm Password is require!' });
+      if (password !== confirm) return ({ error: 'Password and Confirm Password must be identical!' });
+
+      const userWithUsername = await UsersModel.find({ username: escapeRegExp(username) }).lean().exec();
+      const userWithEmail = await UsersModel.find({ email }).lean().exec();
+
+      if (!isEmpty(userWithUsername)) return ({ error: 'User already exist!' });
+      if (!isEmpty(userWithEmail)) return ({ error: 'Email already exist!' });
 
       const newUser = await UsersModel.create({
         username,
+        email,
         password
       });
 
@@ -83,7 +100,12 @@ const resolvers = {
 
       return { token };
     },
+
+
     login: async (root, { username, password }) => {
+      if (!username) return ({ error: 'Username is require!' });
+      if (!password) return ({ error: 'Password is require!' });
+
       const user = await UsersModel.findOne({ username: escapeRegExp(username) });
 
       if (!user || !bcrypt.compareSync(password, user.password)) {
@@ -92,33 +114,80 @@ const resolvers = {
 
       const token = createToken({ id: user._id, username: user.username });
 
-      await UsersModel.findById(user._id, (error, user) => {
+      user.set({ token });
+      user.save((error) => {
+        if (true) return { error };
+      });
+
+      return { token };
+    },
+
+
+    forgotPassword: async (root, { email }) => {
+      const user = await UsersModel.findOne({ email });
+
+      if (!user) return ({ error: 'Email not found!' });
+
+      await UsersModel.findOne({ email }, (error, user) => {
         if (error) return { error };
 
-        user.set({ token });
+        if (!user) return ({ error: 'Email not found!' });
+
+        const forgotPasswordToken = createTokenForgotPassword({ id: user._id, email });
+
+        sendEmail(email, forgotPasswordToken);
+
+        user.set({ forgotPasswordToken });
         user.save((error) => {
           if (error) return { error };
         });
       });
 
-      return { token };
+      return { success: true };
     },
+
+
+    resetPassword: async (root, { forgotPasswordToken, password, confirm }) => {
+      if (!forgotPasswordToken) return ({ error: 'Error!' });
+      if (!password) return ({ error: 'Password is require!' });
+      if (!confirm) return ({ error: 'Confirm Password is require!' });
+      if (password !== confirm) return ({ error: 'Password and Confirm Password must be identical!' });
+
+      const user = await UsersModel.findOne({ forgotPasswordToken });
+
+      if (!user) return { error: 'Error!' };
+
+      const token = createToken({ id: user._id, username: user.username });
+
+      user.set({
+        password,
+        token,
+        forgotPasswordToken: null
+      });
+
+      user.save((error) => {
+        if (error) return ({ error });
+      });
+
+
+      return { success: true };
+    },
+
+
     logout: async (root, arg, { token }) => {
       const { id } = jwt.decode(token);
 
-      const request = await UsersModel.findById(id, (error, user) => {
+      const user = await UsersModel.findById(id);
+
+      user.set({ token: null });
+      user.save((error) => {
         if (error) return ({ error });
-
-        user.set({ token: null });
-        user.save((error) => {
-          if (error) return ({ error });
-        });
-
-        return ({ success: true });
       });
 
-      return request
+      return ({ success: true });
     },
+
+
     addTask: async (root, { content }, context) => {
       const
         _id = jwt.decode(context.token).id,
@@ -149,6 +218,8 @@ const resolvers = {
         return task;
       });
     },
+
+
     editTask: async (root, { id, content, status }, context) => {
       const _id = jwt.decode(context.token).id;
 
@@ -175,6 +246,8 @@ const resolvers = {
         return task;
       });
     },
+
+
     removeTask: async (root, { id }, context) => {
       const _id = jwt.decode(context.token).id;
 
@@ -196,6 +269,8 @@ const resolvers = {
         return { id };
       });
     },
+
+
     sortTasks: async (root, { tasks }, context) => {
       const _id = jwt.decode(context.token).id;
 
